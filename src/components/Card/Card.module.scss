@@ -1,0 +1,90 @@
+@import '../../styles/variables.scss';
+
+.cardContainer {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba($secondary-color, 0.2);
+  border-radius: $border-radius-lg;
+  transition: $transition-base;
+  
+  &__active {
+    border-color: $primary-color;
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: $shadow-md;
+  }
+
+  .optionCheckbox {
+    align-self: flex-start;
+    position: relative;
+    margin-left: $spacing-3;
+    margin-top: $spacing-3;
+    accent-color: $primary-color;
+  }
+
+
+
+  .titleContainer {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    text-align: center;
+    margin-top: $spacing-2;
+
+    .title {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      color: $dark-color;
+      margin: 0;
+    }
+
+    .text {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      color: $secondary-color;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .cardContainer {
+    width: 170px;
+    height: 185px;
+    
+    .icon {
+      margin-top: $spacing-8;
+      width: 50px;
+      height: 50px;
+      padding: $spacing-3;
+    }
+
+    .iconWithCheckbox {
+      width: 60px;
+      height: 60px;
+      padding: $spacing-3;
+      margin-top: 0;
+    }
+
+    .titleContainer {
+      .title {
+        font-size: 16px;
+      }
+
+      .text {
+        max-width: 140px;
+        font-size: 9px;
+        line-height: 16px;
+      }
+    }
+  }
+}

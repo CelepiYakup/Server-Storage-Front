@@ -1,0 +1,112 @@
+@import "../../styles/variables.scss";
+
+.container {
+  display: grid;
+  place-items: center;
+  min-height: 80vh;
+  padding: $spacing-6;
+  background: linear-gradient(
+    135deg,
+    rgba($primary-color, 0.1) 0%,
+    rgba($light-color, 0.2) 100%
+  );
+  z-index: 10000;
+}
+
+.form {
+  width: 100%;
+  max-width: 440px;
+}
+
+.card {
+  padding: $spacing-8 $spacing-6;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.submitButton {
+  width: 100%;
+  padding: $spacing-3 $spacing-6;
+  background-color: $primary-color;
+  color: $light-color;
+  border: none;
+  border-radius: $border-radius-md;
+  font-weight: 600;
+  transition: $transition-fast;
+  position: relative;
+
+  &:hover:not(:disabled) {
+    background-color: darken($primary-color, 10%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.secondaryActions {
+  text-align: center;
+  margin-top: -$spacing-2;
+}
+
+.socialLogin {
+  margin-top: $spacing-4;
+  text-align: center;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-4;
+  margin-top: $spacing-4;
+}
+
+.spinner {
+  font-weight: 4rem;
+}
+
+.switchForm {
+  text-align: center;
+  color: $secondary-color;
+  margin-top: $spacing-6;
+}
+
+.link {
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-md) {
+  .container {
+    padding: $spacing-4;
+  }
+
+  .card {
+    padding: $spacing-6 $spacing-4;
+  }
+
+  .formContent {
+    gap: $spacing-4;
+  }
+
+  .submitButton {
+    padding: $spacing-3;
+  }
+}
