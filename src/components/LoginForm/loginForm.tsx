@@ -1,33 +1,53 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../Card/Card";
 import Input from "../Input/Input";
 import { useForm } from "react-hook-form";
 import styles from "./LoginForm.module.scss";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/app/store/auth/authStore";
 
 type FormValues = {
   email: string;
   password: string;
 };
 
-function LoginForm({ isSignUp = false }: { isSignUp?: boolean }) {
+export default function LoginForm({
+  isSignUp = false,
+}: {
+  isSignUp?: boolean;
+}) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    // API call here
+  const { login, isLoading, isAuthenticated, checkTokenValidity } =
+    useAuthStore();
+
+  useEffect(() => {
+    checkTokenValidity();
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, router, checkTokenValidity]);
+
+  const onSubmit = async (data: FormValues) => {
+    try {
+      await login({ email: data.email, password: data.password });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Card
-          title={"Login"}
+          title={isSignUp ? "Sign Up" : "Login"}
           isActive={true}
           onClick={() => {}}
         >
@@ -40,7 +60,6 @@ function LoginForm({ isSignUp = false }: { isSignUp?: boolean }) {
               register={register}
               error={errors.email}
             />
-
             <Input
               name="password"
               label="Password"
@@ -53,9 +72,9 @@ function LoginForm({ isSignUp = false }: { isSignUp?: boolean }) {
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={isSubmitting}
+              disabled={isLoading}
             >
-              {isSubmitting ? (
+              {isLoading ? (
                 <div className={styles.spinner} aria-label="Loading" />
               ) : isSignUp ? (
                 "Create Account"
@@ -84,5 +103,3 @@ function LoginForm({ isSignUp = false }: { isSignUp?: boolean }) {
     </div>
   );
 }
-
-export default LoginForm;
