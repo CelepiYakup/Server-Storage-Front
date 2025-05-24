@@ -43,22 +43,27 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link
-              href="/files"
-              className={`${styles.navLink} ${
-                pathname.startsWith("/files") ? styles.active : ""
-              }`}
-            >
-              Files
-            </Link>
-            <Link
-              href="/upload"
-              className={`${styles.navLink} ${
-                pathname.startsWith("/upload") ? styles.active : ""
-              }`}
-            >
-              Upload
-            </Link>
+
+            {isAuthenticated && (
+              <>
+                <Link
+                  href="/files"
+                  className={`${styles.navLink} ${
+                    pathname.startsWith("/files") ? styles.active : ""
+                  }`}
+                >
+                  Files
+                </Link>
+                <Link
+                  href="/upload"
+                  className={`${styles.navLink} ${
+                    pathname.startsWith("/upload") ? styles.active : ""
+                  }`}
+                >
+                  Upload
+                </Link>
+              </>
+            )}
           </nav>
         </div>
 
@@ -114,7 +119,7 @@ export default function Navbar() {
               <Link href="/login" className={styles.loginButton}>
                 Login
               </Link>
-              <Link href="/register" className={styles.registerButton}>
+              <Link href="/signup" className={styles.registerButton}>
                 Register
               </Link>
             </div>

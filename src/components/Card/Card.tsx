@@ -2,7 +2,7 @@
 import styles from "./Card.module.scss";
 
 type Props = {
-  title: string;
+  title?: string;
   text?: string;
   isActive: boolean;
   onClick: any; //FIXME:

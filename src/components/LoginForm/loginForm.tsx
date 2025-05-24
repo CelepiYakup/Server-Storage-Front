@@ -46,12 +46,9 @@ export default function LoginForm({
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Card
-          title={isSignUp ? "Sign Up" : "Login"}
-          isActive={true}
-          onClick={() => {}}
-        >
+        <Card isActive={true} onClick={() => {}}>
           <div className={styles.formContent}>
+            Login
             <Input
               name="email"
               label="Email Address"
@@ -83,13 +80,6 @@ export default function LoginForm({
               )}
             </button>
 
-            {!isSignUp && (
-              <div className={styles.secondaryActions}>
-                <a href="/forgot-password" className={styles.link}>
-                  Forgot Password?
-                </a>
-              </div>
-            )}
 
             <p className={styles.switchForm}>
               {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}

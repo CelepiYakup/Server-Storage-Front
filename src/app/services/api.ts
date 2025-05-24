@@ -1,3 +1,4 @@
+import { register } from "module";
 import { useAuthStore } from "../store/auth/authStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -22,6 +23,12 @@ export interface User {
 }
 
 export interface LoginInput {
+  email: string;
+  password: string;
+}
+
+export interface RegisterInput {
+  username: string;
   email: string;
   password: string;
 }
@@ -63,6 +70,29 @@ export const userApi = {
     } catch (error) {
       console.error("Error logging in:", error);
       throw error;
+    }
+  },
+
+  registerUser: async (
+    registerData: RegisterInput
+  ): Promise<{ message: string; user: User }> => {
+    try {
+      const response = await fetch(`${API_URL}/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to register");
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error registering user:", error);
+      throw new Error((error as Error).message || "Failed to register user");
     }
   },
 };

@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Card from "../Card/Card";
 import Input from "../Input/Input";
@@ -7,16 +6,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 import {
   registerSchema,
   RegisterInput,
 } from "@/app/lib/validation/register/register.schema";
-
 import styles from "./registerForm.module.scss";
+import { useAuthStore } from "@/app/store/auth/authStore";
+import { userApi } from "@/app/services/api";
+import { useToast } from "../../app/context/ToastContext";
 
 export default function Register() {
   const router = useRouter();
+  const { showError, showSuccess } = useToast();
 
   const {
     register,
@@ -27,16 +28,29 @@ export default function Register() {
     mode: "onSubmit",
   });
 
+  const { isLoading, login } = useAuthStore();
+
   const onSubmit = async (data: RegisterInput) => {
-    console.log(data);
-    // API call here
+    try {
+      await userApi.registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+      showSuccess("Registration successful! Redirecting to login...");
+      router.push("/login");
+    } catch (err) {
+      showError("Registration failed. Please try again.");
+      console.error("Registration failed:", err);
+    }
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Card title="Register" isActive={true} onClick={() => {}}>
+        <Card isActive={true} onClick={() => {}}>
           <div className={styles.formContent}>
+            Sign up
             <Input
               name="username"
               label="Username"
@@ -67,9 +81,9 @@ export default function Register() {
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
             >
-              {isSubmitting ? (
+              {isSubmitting || isLoading ? (
                 <span className={styles.loadingSpinner} aria-label="Loading" />
               ) : (
                 "Create Account"
