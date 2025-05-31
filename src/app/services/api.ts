@@ -1,4 +1,3 @@
-import { register } from "module";
 import { useAuthStore } from "../store/auth/authStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

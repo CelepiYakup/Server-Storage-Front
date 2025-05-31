@@ -10,8 +10,10 @@ type AuthState = {
   isLoading: boolean;
   login: (LoginData: LoginInput) => Promise<void>;
   logout: () => void;
+  sessionExpiredLogout: () => void;
   checkTokenValidity: () => void;
 };
+//!Verify jwt can be use ()
 
 const isTokenExpired = (token: string): boolean => {
   try {
@@ -24,7 +26,7 @@ const isTokenExpired = (token: string): boolean => {
         .join("")
     );
     const { exp } = JSON.parse(jsonPayload);
-    return exp * 1000 < Date.now();
+    return exp * 59 < Date.now();
   } catch (error) {
     console.error("Error decoding token:", error);
     return true;
@@ -56,16 +58,23 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => {
         set({ user: null, isAuthenticated: false });
-        toast.success("Logged out successfully");
+        toast.success("Log out Succesfully");
       },
-
-      checkTokenValidity: () => {
-        const user = get().user;
-        if (user && user.token && isTokenExpired(user.token)) {
-          toast.error("Your session has expired. Please log in again.");
-          get().logout();
+      sessionExpiredLogout: () => {
+        set({ user: null, isAuthenticated: false });
+        toast.error("Your session has expired. Please log in again.");
+      },
+      checkTokenValidity: async () => {
+        const { user, sessionExpiredLogout } = get();
+      
+        if (!user || !user.token) return;
+      
+        if (isTokenExpired(user.token)) {
+          sessionExpiredLogout();
+          return;
         }
-      },
+      }
+      
     }),
     {
       name: "auth-storage", // localStorage key
