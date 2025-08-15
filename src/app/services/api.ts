@@ -14,7 +14,7 @@ const getAuthHeaders = () => {
 };
 
 export interface User {
-  id: number;
+  id: string;
   username: string;
   email: string;
   token?: string;

@@ -1,0 +1,338 @@
+// src/components/QueueDashboard/QueueDashboard.module.scss
+@import "../../styles/variables.scss";
+
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-6;
+  min-height: 80vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-8;
+  padding-bottom: $spacing-4;
+  border-bottom: 2px solid $border-color;
+
+  .title {
+    color: $primary-color;
+    font-size: $font-size-xxl;
+    margin: 0;
+    font-weight: $font-weight-bold;
+  }
+
+  .controls {
+    display: flex;
+    gap: $spacing-3;
+  }
+
+  .controlButton {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-4;
+    background-color: $light-color;
+    border: 2px solid $primary-color;
+    color: $primary-color;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover {
+      background-color: $primary-color;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    &.active {
+      background-color: $accent-color;
+      border-color: $accent-color;
+      color: white;
+
+      &:hover {
+        background-color: darken($accent-color, 10%);
+      }
+    }
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: $spacing-6;
+  margin-bottom: $spacing-8;
+}
+
+.queueCard {
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-6;
+  box-shadow: $shadow-md;
+  border: 1px solid $border-color;
+  transition: $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    margin-bottom: $spacing-5;
+    padding-bottom: $spacing-3;
+    border-bottom: 1px solid $border-light;
+
+    .cardIcon {
+      font-size: $font-size-xl;
+      color: $primary-color;
+    }
+
+    h3 {
+      margin: 0;
+      color: $primary-color;
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-4;
+  }
+
+  .metric {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3;
+    background-color: rgba($primary-color, 0.05);
+    border-radius: $border-radius-md;
+    transition: $transition-base;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+
+    .metricIcon {
+      color: $secondary-color;
+      font-size: $font-size-sm;
+    }
+
+    .metricLabel {
+      font-weight: $font-weight-medium;
+      color: $secondary-color;
+      font-size: $font-size-sm;
+      flex: 1;
+    }
+
+    .metricValue {
+      font-weight: $font-weight-bold;
+      color: $primary-color;
+      font-size: $font-size-lg;
+
+      &.error {
+        color: $danger-color;
+      }
+    }
+  }
+}
+
+.userSection {
+  margin-bottom: $spacing-8;
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: $spacing-4;
+    font-size: $font-size-lg;
+  }
+
+  .userCard {
+    background: white;
+    border-radius: $border-radius-lg;
+    padding: $spacing-6;
+    box-shadow: $shadow-md;
+    border: 1px solid $border-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-6;
+
+    .userInfo {
+      flex: 1;
+
+      p {
+        margin: 0 0 $spacing-2 0;
+        color: $dark-color;
+      }
+
+      .emailStatus {
+        margin-top: $spacing-3;
+        padding-top: $spacing-3;
+        border-top: 1px solid $border-light;
+
+        .success {
+          color: $success-color;
+          font-weight: $font-weight-semibold;
+        }
+
+        .pending {
+          color: $warning-color;
+          font-weight: $font-weight-semibold;
+        }
+      }
+    }
+
+    .testButton {
+      padding: $spacing-3 $spacing-6;
+      background-color: $accent-color;
+      color: white;
+      border: none;
+      border-radius: $border-radius-md;
+      font-weight: $font-weight-semibold;
+      cursor: pointer;
+      transition: $transition-base;
+      white-space: nowrap;
+
+      &:hover:not(:disabled) {
+        background-color: darken($accent-color, 10%);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  padding: $spacing-4;
+  border-top: 1px solid $border-color;
+  color: $secondary-color;
+  font-size: $font-size-sm;
+
+  p {
+    margin: $spacing-1 0;
+  }
+
+  .autoRefreshIndicator {
+    color: $accent-color;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(white, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  .spinner {
+    font-size: $font-size-xxl;
+    color: $primary-color;
+    animation: spin 1s linear infinite;
+    margin-bottom: $spacing-4;
+  }
+
+  p {
+    color: $primary-color;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-lg;
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-lg) {
+  .dashboard {
+    padding: $spacing-4;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: $spacing-4;
+    align-items: flex-start;
+
+    .title {
+      font-size: $font-size-xl;
+    }
+
+    .controls {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: $spacing-4;
+  }
+
+  .userCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-4;
+
+    .testButton {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .queueCard {
+    padding: $spacing-4;
+
+    .metrics {
+      grid-template-columns: 1fr;
+      gap: $spacing-3;
+    }
+
+    .metric {
+      padding: $spacing-2;
+
+      .metricValue {
+        font-size: $font-size-md;
+      }
+    }
+  }
+
+  .controlButton {
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+  }
+}

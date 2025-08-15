@@ -62,6 +62,14 @@ export default function Navbar() {
                 >
                   Upload
                 </Link>
+                <Link
+                  href="/admin"
+                  className={`${styles.navLink} ${
+                    pathname.startsWith("/admin") ? styles.active : ""
+                  }`}
+                >
+                  Admin Panel
+                </Link>
               </>
             )}
           </nav>

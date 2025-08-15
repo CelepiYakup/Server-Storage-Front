@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { useAuthStore } from "@/app/store/auth/authStore";
 import { useRouter } from "next/navigation";
+import { EmailStatusChecker } from "@/hooks/useEmailStatusCheck";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -51,6 +52,8 @@ function ClientLayout({ children }: ClientLayoutProps) {
         onClose={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
       <main className="main-content">{children}</main>
+      
+      <EmailStatusChecker />
     </>
   );
 }

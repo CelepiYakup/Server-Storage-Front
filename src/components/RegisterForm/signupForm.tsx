@@ -17,7 +17,7 @@ import { useToast } from "../../app/context/ToastContext";
 
 export default function Register() {
   const router = useRouter();
-  const { showError, showSuccess } = useToast();
+  const { showError, showSuccess, showInfo } = useToast();
 
   const {
     register,
@@ -37,8 +37,13 @@ export default function Register() {
         email: data.email,
         password: data.password,
       });
-      showSuccess("Registration successful! Redirecting to login...");
-      router.push("/login");
+      showSuccess("Registration successful! Welcome email will be sent shortly.");
+      showInfo("Redirecting to login page...");
+      
+      // 2 saniye sonra login'e yönlendir
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
     } catch (err) {
       showError("Registration failed. Please try again.");
       console.error("Registration failed:", err);
